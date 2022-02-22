@@ -30,14 +30,24 @@ class ProductsService extends ChangeNotifier {
         {'auth': await storage.read(key: 'token') ?? ''});
     final resp = await http.get(url);
 
+      print('============');
+      print(url);
+
+
     final Map<String, dynamic> productsMap = json.decode(resp.body);
 
+      print('------------');
+      print(productsMap);
 
     productsMap.forEach((key, value) {
-    
-      final tempProduct = Product.fromMap( value );
-      print('============');
-      print(tempProduct);
+      print('************');
+      print(productsMap);
+            print('####################');
+      print(value);
+      
+    final tempProduct = Product.fromMap(productsMap );
+      print('####################');
+      print(Product.fromMap);
       tempProduct.id = key;
       this.products.add( tempProduct );
     });
