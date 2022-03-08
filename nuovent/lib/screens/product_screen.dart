@@ -137,9 +137,9 @@ class _ProductForm extends StatelessWidget {
               TextFormField(
                 initialValue: product.name,
                 onChanged: (value) => product.name = value,
-                validator: (value) {
-                  if (value == null || value.length < 1)
-                    return 'El nombre es obligatorio';
+                validator: ( value ) {
+                  if ( value == null || value.length < 1 )
+                    return 'El nombre es obligatorio'; 
                 },
                 decoration: InputDecorations.authInputDecoration(
                     hintText: 'Nombre del producto', labelText: 'Nombre:'),

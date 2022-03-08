@@ -12,37 +12,44 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: AuthBackground(
-            child: SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 250),
-          CardContainer(
-              child: Column(
+      body: AuthBackground(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              SizedBox(height: 10),
-              Text('Crear cuenta',
-                  style: Theme.of(context).textTheme.headline4),
-              SizedBox(height: 30),
-              ChangeNotifierProvider(
-                  create: (_) => LoginFormProvider(), child: _LoginForm())
-            ],
-          )),
-          SizedBox(height: 50),
-          TextButton(
-              onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
-              style: ButtonStyle(
+              SizedBox(height: 250),
+              CardContainer(
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    Text('Crear cuenta',
+                      style: Theme.of(context).textTheme.headline4
+                    ),
+                    SizedBox(height: 30),
+                    ChangeNotifierProvider(
+                      create: (_) => LoginFormProvider(), child: _LoginForm()
+                    ),
+                  ],
+                )
+              ),
+              SizedBox(height: 50),
+              TextButton(
+                onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
+                style: ButtonStyle(
                   overlayColor:
                       MaterialStateProperty.all(Colors.indigo.withOpacity(0.1)),
-                  shape: MaterialStateProperty.all(StadiumBorder())),
-              child: Text(
-                '¿Ya tienes una cuenta?',
-                style: TextStyle(fontSize: 18, color: Colors.black87),
-              )),
-          SizedBox(height: 50),
-        ],
+                  shape: MaterialStateProperty.all(StadiumBorder())
+                ),
+                child: Text(
+                  '¿Ya tienes una cuenta?',
+                  style: TextStyle(fontSize: 18, color: Colors.black87),
+                )
+              ),
+              SizedBox(height: 50),
+            ],
+          ),
+        ),
       ),
-    )));
+    );
   }
 }
 
@@ -61,39 +68,10 @@ class _LoginForm extends StatelessWidget {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecorations.authInputDecoration(
-                  hintText: 'nombre y apellido',
-                  labelText: 'Nombre completo',
-                  prefixIcon: Icons.person_add),
-              onChanged: (value) => loginForm.password = value,
-              validator: (value) {
-                return (value != null && value.length >= 3)
-                    ? null
-                    : 'La informacion ingresada no corresponde a un nombre ';
-              },
-            ),
-            SizedBox(height: 30),
-                        TextFormField(
-              autocorrect: false,
-              keyboardType: TextInputType.number,
-              decoration: InputDecorations.authInputDecoration(
-                  hintText: 'No.cedula o Nit',
-                  labelText: 'Documento de identidad',
-                  prefixIcon: Icons.badge_outlined ),
-              onChanged: (value) => loginForm.documento = value,
-              validator: (value) {
-                return (value != null && value.length >= 3)
-                    ? null
-                    : 'La informacion ingresada no corresponden a un No. de documento';
-              },
-            ),
-            SizedBox(height: 30),
-            TextFormField(
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecorations.authInputDecoration(
-                  hintText: 'coreo@correo.com',
-                  labelText: 'Correo electrónico',
-                  prefixIcon: Icons.alternate_email_rounded),
+                hintText: 'john.doe@gmail.com',
+                labelText: 'Correo electrónico',
+                prefixIcon: Icons.alternate_email_rounded
+              ),
               onChanged: (value) => loginForm.email = value,
               validator: (value) {
                 String pattern =
@@ -111,9 +89,10 @@ class _LoginForm extends StatelessWidget {
               obscureText: true,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecorations.authInputDecoration(
-                  hintText: '*****',
-                  labelText: 'Contraseña',
-                  prefixIcon: Icons.lock_outline),
+                hintText: '*****',
+                labelText: 'Contraseña',
+                prefixIcon: Icons.lock_outline
+              ),
               onChanged: (value) => loginForm.password = value,
               validator: (value) {
                 return (value != null && value.length >= 6)
@@ -123,39 +102,40 @@ class _LoginForm extends StatelessWidget {
             ),
             SizedBox(height: 30),
             MaterialButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                disabledColor: Colors.grey,
-                elevation: 0,
-                color: Colors.blue,
-                child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                    child: Text(
-                      loginForm.isLoading ? 'Espere' : 'Ingresar',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                onPressed: loginForm.isLoading
-                    ? null
-                    : () async {
-                        FocusScope.of(context).unfocus();
-                        final authService =
-                            Provider.of<AuthService>(context, listen: false);
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)
+              ),
+              disabledColor: Colors.grey,
+              elevation: 0,
+              color: Colors.blue,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                child: Text(
+                  loginForm.isLoading ? 'Espere' : 'Ingresar',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              onPressed: loginForm.isLoading
+                ? null
+                : () async {
+                  FocusScope.of(context).unfocus();
+                    final authService =
+                        Provider.of<AuthService>(context, listen: false);
 
-                        if (!loginForm.isValidForm()) return;
+                  if (!loginForm.isValidForm()) return;
 
-                        loginForm.isLoading = true;
+                  loginForm.isLoading = true;
+                  final String? errorMessage = await authService
+                    .createUser(loginForm.email, loginForm.password);
 
-                        final String? errorMessage = await authService
-                            .createUser(loginForm.email, loginForm.password);
-
-                        if (errorMessage == null) {
-                          Navigator.pushReplacementNamed(context, 'home');
-                        } else {
-                          
-                          print(errorMessage);
+                  if (errorMessage == null) {
+                    Navigator.pushReplacementNamed(context, 'login');
+                  } else {
+                    print(errorMessage);
                           loginForm.isLoading = false;
-                        }
-                      })
+                  }
+                }
+            ),
           ],
         ),
       ),

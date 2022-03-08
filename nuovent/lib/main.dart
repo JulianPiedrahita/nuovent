@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Nuovent',
-      initialRoute: 'checking',
+      initialRoute: 'login',
       routes: {
         'home' :    ( _ ) => HomeScreen(),
         'login':    ( _ ) => LoginScreen(),
