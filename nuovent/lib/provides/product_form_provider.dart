@@ -19,7 +19,7 @@ class ProductFormProvider extends ChangeNotifier {
 
   bool isValidForm() {
 
-    print( product.name );
+    print( product.nomAnounce );
     print( product.city );
     print( product.available );
 

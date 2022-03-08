@@ -26,7 +26,7 @@ class ProductCard extends StatelessWidget {
             _BackgroundImage( product.picture ),
 
             _ProductDetails(
-              title: product.name,
+              title: product.nomAnounce,
               subTitle: product.city,
             ),
 
@@ -37,12 +37,6 @@ class ProductCard extends StatelessWidget {
             ),
 
 
-            if( !product.available )
-              Positioned(
-                top: 0,
-                left: 0,
-                child: _NotAvailable()
-              ),
 
           ],
         ),

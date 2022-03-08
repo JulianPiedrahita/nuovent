@@ -50,8 +50,10 @@ class HomeScreen extends StatelessWidget {
 
           productsService.selectedProduct = new Product(
             available: false, 
-            name: '', 
+            nomAnounce: '', 
             picture: '',
+            description: '',
+            numCapacity: '',
             city: ''
           );
           Navigator.pushNamed(context, 'product');

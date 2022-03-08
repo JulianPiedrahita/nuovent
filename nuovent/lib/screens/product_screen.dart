@@ -135,8 +135,8 @@ class _ProductForm extends StatelessWidget {
             children: [
               SizedBox(height: 10),
               TextFormField(
-                initialValue: product.name,
-                onChanged: (value) => product.name = value,
+                initialValue: product.nomAnounce,
+                onChanged: (value) => product.nomAnounce = value,
                 validator: ( value ) {
                   if ( value == null || value.length < 1 )
                     return 'El nombre es obligatorio'; 
