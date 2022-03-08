@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Productos'),
+        title: Text('Anuncios'),
         actions:[
           IconButton(
           icon: Icon( Icons.login_outlined ),
@@ -31,6 +31,7 @@ class HomeScreen extends StatelessWidget {
         ),
         ]
       ),
+      drawer: DrawerMenu(),
       body: ListView.builder(
         itemCount: productsService.products.length,
         itemBuilder: ( BuildContext context, int index ) => GestureDetector(
